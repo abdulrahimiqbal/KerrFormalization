@@ -4,3 +4,5 @@ import KerrFormalization.Schwarzschild.InverseMetric
 import KerrFormalization.Schwarzschild.Christoffel
 import KerrFormalization.Schwarzschild.ComponentLemmas
 import KerrFormalization.Schwarzschild.VacuumPrelude
+import KerrFormalization.Schwarzschild.Ricci
+import KerrFormalization.Schwarzschild.Vacuum

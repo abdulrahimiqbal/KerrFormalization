@@ -2,6 +2,7 @@ import KerrFormalization.PseudoRiemannian
 import KerrFormalization.LocalCoordinates
 import KerrFormalization.Warmup
 import KerrFormalization.Schwarzschild
+import KerrFormalization.Kerr
 
 /-!
 # Smoke tests
@@ -38,5 +39,12 @@ open LocalCoordinates
 #check Schwarzschild.lapse
 #check Schwarzschild.schwarzschildMetricData
 #check Schwarzschild.schwarzschildInverseMetric
+#check Schwarzschild.schwarzschildIsVacuum
+
+#check Kerr.delta
+#check Kerr.sigma
+#check Kerr.kerrMetricData
+#check Kerr.kerrInverseMetricData
+#check Kerr.outerHorizon
 
 end KerrFormalization
