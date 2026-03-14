@@ -1,5 +1,5 @@
 import KerrFormalization.Schwarzschild.Basic
-import KerrFormalization.LocalCoordinates.ChristoffelData
+import KerrFormalization.LocalCoordinates.MetricData
 import Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic
 
 /-!
@@ -59,17 +59,6 @@ noncomputable def schwarzschildDiag (M : ℝ) : Fin 4 → CoordinateScalarField 
 noncomputable def schwarzschildMetricData (M : ℝ) : CoordinateMetricData 4 :=
   CoordinateMetricData.diagonal (exteriorDomain M) (schwarzschildDiag M)
 
-/-- Pointwise inverse Schwarzschild metric components in Schwarzschild coordinates. -/
-noncomputable def schwarzschildInverseMetric (M : ℝ) : InverseMetricData 4 :=
-  fun x i j =>
-    if h : i = j then
-      if i = tIdx then -((lapse M (x rIdx))⁻¹)
-      else if i = rIdx then lapse M (x rIdx)
-      else if i = thetaIdx then ((x rIdx)^2)⁻¹
-      else if i = phiIdx then (((x rIdx)^2) * (Real.sin (x thetaIdx))^2)⁻¹
-      else 0
-    else 0
-
 example (M : ℝ) (x : CoordinateSpace 4) :
     CoordinateMetricData.value (schwarzschildMetricData M) x tIdx tIdx = -(lapse M (x rIdx)) := by
   simp [schwarzschildMetricData, CoordinateMetricData.value, CoordinateMetricData.diagonal,
@@ -95,8 +84,5 @@ example (M : ℝ) (x : CoordinateSpace 4) :
   simp [schwarzschildDiag, gPhiPhiField, hφt, hφr, hφθ, hθr]
 
 #check schwarzschildMetricData
-#check schwarzschildInverseMetric
-#check christoffelFromMetricData
-
 end Schwarzschild
 end KerrFormalization

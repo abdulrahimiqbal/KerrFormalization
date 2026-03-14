@@ -6,4 +6,5 @@ import KerrFormalization.LocalCoordinates.Curvature
 import KerrFormalization.LocalCoordinates.Vacuum
 import KerrFormalization.LocalCoordinates.Fields
 import KerrFormalization.LocalCoordinates.MetricData
+import KerrFormalization.LocalCoordinates.DiagonalMetricLemmas
 import KerrFormalization.LocalCoordinates.ChristoffelData

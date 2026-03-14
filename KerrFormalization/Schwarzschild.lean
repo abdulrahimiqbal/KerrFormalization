@@ -1,2 +1,6 @@
 import KerrFormalization.Schwarzschild.Basic
 import KerrFormalization.Schwarzschild.Metric
+import KerrFormalization.Schwarzschild.InverseMetric
+import KerrFormalization.Schwarzschild.Christoffel
+import KerrFormalization.Schwarzschild.ComponentLemmas
+import KerrFormalization.Schwarzschild.VacuumPrelude
