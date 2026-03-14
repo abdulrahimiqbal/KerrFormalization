@@ -65,25 +65,17 @@ end MetricComponentChecks
 
 section HorizonChecks
 
-@[simp] theorem outerHorizon_def (M a : ℝ) :
-    outerHorizon M a = M + Real.sqrt (M ^ 2 - a ^ 2) := rfl
+theorem horizons_ordered (M a : ℝ) :
+    innerHorizon M a ≤ outerHorizon M a :=
+  innerHorizon_le_outerHorizon M a
 
-@[simp] theorem innerHorizon_def (M a : ℝ) :
-    innerHorizon M a = M - Real.sqrt (M ^ 2 - a ^ 2) := rfl
+theorem horizon_sum_is_twice_mass (M a : ℝ) :
+    outerHorizon M a + innerHorizon M a = 2 * M :=
+  horizon_sum M a
 
-theorem delta_outerHorizon_eq_zero (M a : ℝ) (hdisc : 0 ≤ M ^ 2 - a ^ 2) :
-    delta M a (outerHorizon M a) = 0 := by
-  unfold delta outerHorizon
-  have hs : (Real.sqrt (M ^ 2 - a ^ 2)) ^ 2 = M ^ 2 - a ^ 2 := by
-    simpa [pow_two] using Real.sq_sqrt hdisc
-  nlinarith [hs]
-
-theorem delta_innerHorizon_eq_zero (M a : ℝ) (hdisc : 0 ≤ M ^ 2 - a ^ 2) :
-    delta M a (innerHorizon M a) = 0 := by
-  unfold delta innerHorizon
-  have hs : (Real.sqrt (M ^ 2 - a ^ 2)) ^ 2 = M ^ 2 - a ^ 2 := by
-    simpa [pow_two] using Real.sq_sqrt hdisc
-  nlinarith [hs]
+theorem horizon_product_is_spin_square (M a : ℝ) (hdisc : 0 ≤ M ^ 2 - a ^ 2) :
+    outerHorizon M a * innerHorizon M a = a ^ 2 :=
+  horizon_product M a hdisc
 
 end HorizonChecks
 
