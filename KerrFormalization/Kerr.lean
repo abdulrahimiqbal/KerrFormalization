@@ -3,3 +3,7 @@ import KerrFormalization.Kerr.BoyerLindquist
 import KerrFormalization.Kerr.InverseMetric
 import KerrFormalization.Kerr.ComponentLemmas
 import KerrFormalization.Kerr.Horizons
+import KerrFormalization.Kerr.Christoffel
+import KerrFormalization.Kerr.Ricci
+import KerrFormalization.Kerr.Vacuum
+import KerrFormalization.Kerr.Sanity
