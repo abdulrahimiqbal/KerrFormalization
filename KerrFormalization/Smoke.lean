@@ -46,5 +46,9 @@ open LocalCoordinates
 #check Kerr.kerrMetricData
 #check Kerr.kerrInverseMetricData
 #check Kerr.outerHorizon
+#check Kerr.kerr_stationary
+#check Kerr.kerr_axisymmetric
+#check Kerr.ergoregion
+#check Kerr.zeroSpinComponentAgreement
 
 end KerrFormalization
