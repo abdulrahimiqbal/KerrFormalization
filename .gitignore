@@ -1,0 +1,5 @@
+.lake/
+.cache/
+build/
+full_file_structure.txt
+.DS_Store
