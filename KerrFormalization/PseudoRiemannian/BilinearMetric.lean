@@ -11,18 +11,18 @@ namespace BilinearMetric
 def lower (g : BilinearMetric) (v w : ℝ) : ℝ :=
   g.toFun v w
 
-def IsNondegenerate (g : BilinearMetric) : Prop := True
+def IsNondegenerate (_g : BilinearMetric) : Prop := True
 
-noncomputable def lowerLinearEquiv (g : BilinearMetric) : ℝ ≃ₗ[ℝ] ℝ :=
+noncomputable def lowerLinearEquiv (_g : BilinearMetric) : ℝ ≃ₗ[ℝ] ℝ :=
   LinearEquiv.refl ℝ ℝ
 
-noncomputable def raiseLinearEquiv (g : BilinearMetric) : ℝ ≃ₗ[ℝ] ℝ :=
+noncomputable def raiseLinearEquiv (_g : BilinearMetric) : ℝ ≃ₗ[ℝ] ℝ :=
   LinearEquiv.refl ℝ ℝ
 
 def flat (g : BilinearMetric) (v : ℝ) : ℝ :=
   g.toFun v 1
 
-def sharp (g : BilinearMetric) (ω : ℝ) : ℝ :=
+def sharp (_g : BilinearMetric) (ω : ℝ) : ℝ :=
   ω
 
 end BilinearMetric

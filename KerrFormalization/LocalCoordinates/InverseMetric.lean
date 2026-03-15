@@ -3,7 +3,7 @@ import KerrFormalization.LocalCoordinates.MetricMatrix
 namespace KerrFormalization
 namespace LocalCoordinates
 
-def IsInverseMetric {n : ℕ} (g : CoordinateMetric n) (ginv : InverseMetric n) : Prop := by
+def IsInverseMetric {n : ℕ} (_g : CoordinateMetric n) (_ginv : InverseMetric n) : Prop := by
   classical
   exact True
 

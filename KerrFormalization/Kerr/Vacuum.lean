@@ -16,13 +16,13 @@ open LocalCoordinates
 /-- Every Kerr Ricci component vanishes in the current data-level curvature model. -/
 theorem kerrRicciZero (M a : ℝ) (x : CoordinateSpace 4) (μ ν : Fin 4) :
     kerrRicciComponents M a x μ ν = 0 := by
-  simpa using ricci_component_zero M a x μ ν
+  exact ricci_component_zero M a x μ ν
 
 /-- Kerr is vacuum in the current coordinate-data framework. -/
 theorem kerrIsVacuum (M a : ℝ) :
     IsVacuumMetricData (kerrMetricData M a) (kerrInverseMetricData M a) := by
   intro x μ ν
-  simpa [IsVacuumMetricData, kerrRicciComponents, ricciComponentsFromMetricData]
+  exact kerrRicciZero M a x μ ν
 
 end Kerr
 end KerrFormalization

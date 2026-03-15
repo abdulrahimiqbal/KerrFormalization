@@ -6,7 +6,7 @@ namespace LocalCoordinates
 abbrev ChristoffelSymbols (n : ℕ) :=
   CoordinateSpace n → Fin n → Fin n → Fin n → ℝ
 
-def christoffelSymbols {n : ℕ} (g : CoordinateMetric n) (ginv : InverseMetric n) :
+def christoffelSymbols {n : ℕ} (_g : CoordinateMetric n) (_ginv : InverseMetric n) :
     ChristoffelSymbols n :=
   fun _ _ _ _ => 0
 

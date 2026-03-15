@@ -8,3 +8,10 @@ import KerrFormalization.LocalCoordinates.Fields
 import KerrFormalization.LocalCoordinates.MetricData
 import KerrFormalization.LocalCoordinates.DiagonalMetricLemmas
 import KerrFormalization.LocalCoordinates.ChristoffelData
+
+/-!
+# Local coordinate-data public surface
+
+Aggregator for the abstract coordinate-layer APIs used by the Kerr and
+Schwarzschild modules.
+-/
