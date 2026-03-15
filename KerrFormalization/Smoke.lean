@@ -3,40 +3,24 @@ import KerrFormalization.LocalCoordinates
 import KerrFormalization.Warmup
 import KerrFormalization.Schwarzschild
 import KerrFormalization.Kerr
+import KerrFormalization.Overview
 
 /-!
-# Smoke tests
+# Smoke checks
 
-This file provides lightweight checks that the pseudo-Riemannian, local-coordinate,
-and first serious spacetime modules can be imported together and that the expected
-names are available.
+Minimal `#check` coverage for the public v1 surface.
+These checks are presentation-oriented and avoid brittle computation tests.
 -/
 
 namespace KerrFormalization
 
-open PseudoRiemannian
 open LocalCoordinates
 
 #check PseudoRiemannian.BilinearMetric
-#check PseudoRiemannian.BilinearMetric.lower
-#check PseudoRiemannian.BilinearMetric.IsNondegenerate
-#check PseudoRiemannian.BilinearMetric.lowerLinearEquiv
-#check PseudoRiemannian.BilinearMetric.raiseLinearEquiv
-#check PseudoRiemannian.BilinearMetric.flat
-#check PseudoRiemannian.BilinearMetric.sharp
-#check PseudoRiemannian.realLineMetric
-#check PseudoRiemannian.twoDimMinkowskiMetric
-
-#check LocalCoordinates.CoordinateSpace
-#check LocalCoordinates.CoordinateScalarField
 #check LocalCoordinates.CoordinateMetricData
-#check LocalCoordinates.InverseMetricData
-#check LocalCoordinates.christoffelFromMetricData
-#check LocalCoordinates.IsVacuumMetric
-
+#check LocalCoordinates.IsVacuumMetricData
 #check Warmup.minkowskiMetricData
-#check Warmup.minkowskiInverseMetric
-#check Schwarzschild.lapse
+
 #check Schwarzschild.schwarzschildMetricData
 #check Schwarzschild.schwarzschildInverseMetric
 #check Schwarzschild.schwarzschildIsVacuum
@@ -46,9 +30,17 @@ open LocalCoordinates
 #check Kerr.kerrMetricData
 #check Kerr.kerrInverseMetricData
 #check Kerr.outerHorizon
+#check Kerr.ergoregion
 #check Kerr.kerr_stationary
 #check Kerr.kerr_axisymmetric
-#check Kerr.ergoregion
+#check Kerr.kerrIsVacuum
 #check Kerr.zeroSpinComponentAgreement
+
+#check Kerr.kerrVacuumValidated
+#check Kerr.outerHorizonIsDeltaRoot
+#check Kerr.zeroSpinReductionValidated
+
+#check kerrIsVacuum_v1
+#check schwarzschildIsVacuum_v1
 
 end KerrFormalization

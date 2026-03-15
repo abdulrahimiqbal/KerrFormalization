@@ -6,3 +6,10 @@ import KerrFormalization.Schwarzschild.ComponentLemmas
 import KerrFormalization.Schwarzschild.VacuumPrelude
 import KerrFormalization.Schwarzschild.Ricci
 import KerrFormalization.Schwarzschild.Vacuum
+
+/-!
+# Schwarzschild public surface
+
+Aggregator for Schwarzschild coordinate-data definitions, components,
+curvature placeholders, and the vacuum theorem in this model.
+-/
