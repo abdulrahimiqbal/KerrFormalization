@@ -25,9 +25,17 @@ structure CoordinateMetricData (n : ℕ) where
   symmetric : ∀ i j x, component i j x = component j i x
   /-- Pointwise symmetry of supplied first derivatives. -/
   deriv_symmetric : ∀ i j k x, (component i j).deriv k x = (component j i).deriv k x
+  /-- Pointwise symmetry of supplied second derivatives. -/
+  deriv2_symmetric :
+    ∀ i j k l x, (component i j).deriv2 k l x = (component j i).deriv2 k l x
 
 /-- Pointwise inverse-metric components in coordinates. -/
 abbrev InverseMetricData (n : ℕ) := CoordinateSpace n → Fin n → Fin n → ℝ
+
+/-- Inverse-metric values together with supplied first coordinate derivatives. -/
+structure InverseMetricDataWithDeriv (n : ℕ) where
+  value : InverseMetricData n
+  deriv : Fin n → CoordinateSpace n → Fin n → Fin n → ℝ
 
 namespace CoordinateMetricData
 
@@ -39,6 +47,11 @@ def value {n : ℕ} (g : CoordinateMetricData n) (x : CoordinateSpace n) (i j : 
 def partialValue {n : ℕ} (g : CoordinateMetricData n) (k : Fin n) (x : CoordinateSpace n)
     (i j : Fin n) : ℝ :=
   (g.component i j).deriv k x
+
+/-- Evaluate a supplied second derivative of a metric component. -/
+def partial2Value {n : ℕ} (g : CoordinateMetricData n) (k l : Fin n) (x : CoordinateSpace n)
+    (i j : Fin n) : ℝ :=
+  (g.component i j).deriv2 k l x
 
 /-- A diagonal coordinate metric built from diagonal scalar fields. -/
 def diagonal {n : ℕ} (domain : CoordinateDomain n) (diag : Fin n → CoordinateScalarField n) :
@@ -63,9 +76,19 @@ def diagonal {n : ℕ} (domain : CoordinateDomain n) (diag : Fin n → Coordinat
       change ((if i = j then diag i else CoordinateScalarField.zero n).deriv k x) =
         ((if j = i then diag j else CoordinateScalarField.zero n).deriv k x)
       simp [hij, hji]
+  deriv2_symmetric := by
+    intro i j k l x
+    by_cases hij : i = j
+    · subst hij
+      simp
+    · have hji : j ≠ i := by simpa [eq_comm] using hij
+      change ((if i = j then diag i else CoordinateScalarField.zero n).deriv2 k l x) =
+        ((if j = i then diag j else CoordinateScalarField.zero n).deriv2 k l x)
+      simp [hij, hji]
 
 #check CoordinateMetricData
 #check InverseMetricData
+#check InverseMetricDataWithDeriv
 #check CoordinateMetricData.diagonal
 
 end CoordinateMetricData

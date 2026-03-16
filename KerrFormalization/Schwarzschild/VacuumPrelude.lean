@@ -13,8 +13,9 @@ namespace Schwarzschild
 open LocalCoordinates
 
 /-- Bundle of Schwarzschild metric and inverse metric data used in vacuum computations. -/
-noncomputable def schwarzschildMetricPair (M : ℝ) : CoordinateMetricData 4 × InverseMetricData 4 :=
-  (schwarzschildMetricData M, schwarzschildInverseMetric M)
+noncomputable def schwarzschildMetricPair (M : ℝ) :
+    CoordinateMetricData 4 × InverseMetricDataWithDeriv 4 :=
+  (schwarzschildMetricData M, schwarzschildInverseMetricWithDeriv M)
 
 /-- The Christoffel layer used by later vacuum calculations. -/
 noncomputable def schwarzschildVacuumChristoffel (M : ℝ) : ChristoffelSymbolsData 4 :=

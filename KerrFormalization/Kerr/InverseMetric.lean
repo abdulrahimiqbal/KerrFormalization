@@ -33,5 +33,15 @@ noncomputable def kerrInverseMetricData (M a : ℝ) : InverseMetricData 4 :=
       else 0
     else 0
 
+/--
+Inverse Kerr metric data with supplied first derivatives of inverse components.
+
+Current derivative slots are placeholders and will be refined in a follow-up
+curvature tranche.
+-/
+noncomputable def kerrInverseMetricWithDeriv (M a : ℝ) : InverseMetricDataWithDeriv 4 where
+  value := kerrInverseMetricData M a
+  deriv := fun _ _ _ _ => 0
+
 end Kerr
 end KerrFormalization

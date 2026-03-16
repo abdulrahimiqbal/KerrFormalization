@@ -18,7 +18,7 @@ open LocalCoordinates
 
 /-- Public validation alias for the Kerr vacuum theorem. -/
 theorem kerrVacuumValidated (M a : ℝ) :
-    IsVacuumMetricData (kerrMetricData M a) (kerrInverseMetricData M a) :=
+    IsVacuumMetricData (kerrMetricData M a) (kerrInverseMetricWithDeriv M a) :=
   kerrIsVacuum M a
 
 /-- Public validation alias for the Kerr `\Delta` formula. -/
