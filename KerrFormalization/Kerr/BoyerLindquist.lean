@@ -21,11 +21,13 @@ def boyerLindquistDomain (M a : ℝ) : CoordinateDomain 4 :=
 noncomputable def gttField (M a : ℝ) : CoordinateScalarField 4 where
   toFun := fun x => -(1 - (2 * M * x rIdx) / sigma a (x rIdx) (x thetaIdx))
   deriv := fun _ _ => 0
+  deriv2 := fun _ _ _ => 0
 
 /-- `g_rr` for Kerr in Boyer-Lindquist coordinates. -/
 noncomputable def grrField (M a : ℝ) : CoordinateScalarField 4 where
   toFun := fun x => sigma a (x rIdx) (x thetaIdx) / delta M a (x rIdx)
   deriv := fun _ _ => 0
+  deriv2 := fun _ _ _ => 0
 
 /-- `g_θθ = Σ` for Kerr in Boyer-Lindquist coordinates. -/
 noncomputable def gThetaThetaField (a : ℝ) : CoordinateScalarField 4 where
@@ -34,12 +36,18 @@ noncomputable def gThetaThetaField (a : ℝ) : CoordinateScalarField 4 where
     if k = rIdx then 2 * x rIdx
     else if k = thetaIdx then -2 * a^2 * Real.cos (x thetaIdx) * Real.sin (x thetaIdx)
     else 0
+  deriv2 := fun k l x =>
+    if k = rIdx ∧ l = rIdx then 2
+    else if k = thetaIdx ∧ l = thetaIdx then
+      2 * a^2 * ((Real.sin (x thetaIdx))^2 - (Real.cos (x thetaIdx))^2)
+    else 0
 
 /-- `g_tφ` for Kerr in Boyer-Lindquist coordinates. -/
 noncomputable def gtPhiField (M a : ℝ) : CoordinateScalarField 4 where
   toFun := fun x =>
     -(2 * M * a * x rIdx * (Real.sin (x thetaIdx))^2 / sigma a (x rIdx) (x thetaIdx))
   deriv := fun _ _ => 0
+  deriv2 := fun _ _ _ => 0
 
 /-- `g_φφ` for Kerr in Boyer-Lindquist coordinates. -/
 noncomputable def gPhiPhiField (M a : ℝ) : CoordinateScalarField 4 where
@@ -47,6 +55,7 @@ noncomputable def gPhiPhiField (M a : ℝ) : CoordinateScalarField 4 where
     (((x rIdx)^2 + a^2)^2 - a^2 * delta M a (x rIdx) * (Real.sin (x thetaIdx))^2)
       * (Real.sin (x thetaIdx))^2 / sigma a (x rIdx) (x thetaIdx)
   deriv := fun _ _ => 0
+  deriv2 := fun _ _ _ => 0
 
 theorem offDiagTPhi_symm {i j : Fin 4} :
     offDiagTPhi i j ↔ offDiagTPhi j i := by
@@ -93,6 +102,19 @@ noncomputable def kerrMetricData (M a : ℝ) : CoordinateMetricData 4 where
         simp [hOff, hOff', hij, hji]
   deriv_symmetric := by
     intro i j k x
+    by_cases hOff : offDiagTPhi i j
+    · have hOff' : offDiagTPhi j i := (offDiagTPhi_symm).1 hOff
+      simp [hOff, hOff']
+    · have hOff' : ¬ offDiagTPhi j i := by
+        intro h
+        exact hOff ((offDiagTPhi_symm).2 h)
+      by_cases hij : i = j
+      · subst hij
+        simp [hOff, hOff']
+      · have hji : j ≠ i := by simpa [eq_comm] using hij
+        simp [hOff, hOff', hij, hji]
+  deriv2_symmetric := by
+    intro i j k l x
     by_cases hOff : offDiagTPhi i j
     · have hOff' : offDiagTPhi j i := (offDiagTPhi_symm).1 hOff
       simp [hOff, hOff']

@@ -21,6 +21,8 @@ noncomputable def gttField (M : ℝ) : CoordinateScalarField 4 where
   toFun := fun x => -(lapse M (x rIdx))
   deriv := fun k x =>
     if k = rIdx then -(2 * M) / (x rIdx)^2 else 0
+  deriv2 := fun k l x =>
+    if k = rIdx ∧ l = rIdx then 4 * M / (x rIdx)^3 else 0
 
 /-- The `g_rr` component field of the Schwarzschild metric. -/
 noncomputable def grrField (M : ℝ) : CoordinateScalarField 4 where
@@ -29,12 +31,19 @@ noncomputable def grrField (M : ℝ) : CoordinateScalarField 4 where
     if k = rIdx then
       -((2 * M) / (x rIdx)^2) / (lapse M (x rIdx))^2
     else 0
+  deriv2 := fun k l x =>
+    if k = rIdx ∧ l = rIdx then
+      (4 * M / (x rIdx)^3) / (lapse M (x rIdx))^2
+        + (8 * M^2 / (x rIdx)^4) / (lapse M (x rIdx))^3
+    else 0
 
 /-- The `g_{θθ}` component field of the Schwarzschild metric. -/
 noncomputable def gThetaThetaField : CoordinateScalarField 4 where
   toFun := fun x => (x rIdx)^2
   deriv := fun k x =>
     if k = rIdx then 2 * x rIdx else 0
+  deriv2 := fun k l _ =>
+    if k = rIdx ∧ l = rIdx then 2 else 0
 
 /-- The `g_{φφ}` component field of the Schwarzschild metric. -/
 noncomputable def gPhiPhiField : CoordinateScalarField 4 where
@@ -44,6 +53,14 @@ noncomputable def gPhiPhiField : CoordinateScalarField 4 where
       2 * x rIdx * (Real.sin (x thetaIdx))^2
     else if k = thetaIdx then
       (x rIdx)^2 * (2 * Real.sin (x thetaIdx) * Real.cos (x thetaIdx))
+    else 0
+  deriv2 := fun k l x =>
+    if k = rIdx ∧ l = rIdx then
+      2 * (Real.sin (x thetaIdx))^2
+    else if k = thetaIdx ∧ l = thetaIdx then
+      (x rIdx)^2 * (2 * ((Real.cos (x thetaIdx))^2 - (Real.sin (x thetaIdx))^2))
+    else if (k = rIdx ∧ l = thetaIdx) ∨ (k = thetaIdx ∧ l = rIdx) then
+      4 * x rIdx * Real.sin (x thetaIdx) * Real.cos (x thetaIdx)
     else 0
 
 /-- Diagonal entries of the Schwarzschild metric. -/

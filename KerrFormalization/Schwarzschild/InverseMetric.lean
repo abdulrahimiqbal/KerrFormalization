@@ -22,6 +22,26 @@ noncomputable def schwarzschildInverseMetric (M : ℝ) : InverseMetricData 4 :=
       else 0
     else 0
 
+/-- Inverse Schwarzschild metric data together with supplied first derivatives. -/
+noncomputable def schwarzschildInverseMetricWithDeriv (M : ℝ) : InverseMetricDataWithDeriv 4 where
+  value := schwarzschildInverseMetric M
+  deriv := fun k x i j =>
+    if hij : i = j then
+      if i = tIdx then
+        if k = rIdx then ((2 * M) / (x rIdx)^2) / (lapse M (x rIdx))^2 else 0
+      else if i = rIdx then
+        if k = rIdx then (2 * M) / (x rIdx)^2 else 0
+      else if i = thetaIdx then
+        if k = rIdx then -(2 / (x rIdx)^3) else 0
+      else if i = phiIdx then
+        if k = rIdx then
+          -(2 / ((x rIdx)^3 * (Real.sin (x thetaIdx))^2))
+        else if k = thetaIdx then
+          -(2 * Real.cos (x thetaIdx) / ((x rIdx)^2 * (Real.sin (x thetaIdx))^3))
+        else 0
+      else 0
+    else 0
+
 @[simp] theorem inverse_tt (M : ℝ) (x : CoordinateSpace 4) :
     schwarzschildInverseMetric M x tIdx tIdx = -((lapse M (x rIdx))⁻¹) := by
   simp [schwarzschildInverseMetric, tIdx, rIdx, thetaIdx, phiIdx]

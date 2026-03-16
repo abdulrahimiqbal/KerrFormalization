@@ -20,7 +20,7 @@ theorem schwarzschildRicciZero (M : ℝ) (x : CoordinateSpace 4) (μ ν : Fin 4)
 
 /-- Schwarzschild is vacuum in the current coordinate-data framework. -/
 theorem schwarzschildIsVacuum (M : ℝ) :
-    IsVacuumMetricData (schwarzschildMetricData M) (schwarzschildInverseMetric M) := by
+    IsVacuumMetricData (schwarzschildMetricData M) (schwarzschildInverseMetricWithDeriv M) := by
   intro x μ ν
   exact schwarzschildRicciZero M x μ ν
 

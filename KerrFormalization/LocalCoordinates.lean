@@ -8,6 +8,7 @@ import KerrFormalization.LocalCoordinates.Fields
 import KerrFormalization.LocalCoordinates.MetricData
 import KerrFormalization.LocalCoordinates.DiagonalMetricLemmas
 import KerrFormalization.LocalCoordinates.ChristoffelData
+import KerrFormalization.LocalCoordinates.ChristoffelDeriv
 
 /-!
 # Local coordinate-data public surface

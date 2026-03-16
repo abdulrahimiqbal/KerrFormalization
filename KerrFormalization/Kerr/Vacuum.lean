@@ -20,7 +20,7 @@ theorem kerrRicciZero (M a : ℝ) (x : CoordinateSpace 4) (μ ν : Fin 4) :
 
 /-- Kerr is vacuum in the current coordinate-data framework. -/
 theorem kerrIsVacuum (M a : ℝ) :
-    IsVacuumMetricData (kerrMetricData M a) (kerrInverseMetricData M a) := by
+    IsVacuumMetricData (kerrMetricData M a) (kerrInverseMetricWithDeriv M a) := by
   intro x μ ν
   exact kerrRicciZero M a x μ ν
 

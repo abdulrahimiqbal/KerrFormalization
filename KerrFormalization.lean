@@ -4,7 +4,6 @@ import KerrFormalization.Warmup
 import KerrFormalization.Schwarzschild
 import KerrFormalization.Kerr
 import KerrFormalization.Overview
-import KerrFormalization.Smoke
 
 /-!
 # KerrFormalization
