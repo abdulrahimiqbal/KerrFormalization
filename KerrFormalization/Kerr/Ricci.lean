@@ -6,6 +6,10 @@ import KerrFormalization.LocalCoordinates.Curvature
 
 This file packages Ricci components for Kerr in the current coordinate-data
 curvature API.
+
+STATUS: incomplete formal Ricci vanishing proof.
+All component-vanishing lemmas below are placeholders and are not suitable for
+public vacuum claims.
 -/
 
 namespace KerrFormalization

@@ -1,4 +1,3 @@
-import KerrFormalization.Kerr.Vacuum
 import KerrFormalization.Kerr.Horizons
 import KerrFormalization.Kerr.ComponentLemmas
 import KerrFormalization.Schwarzschild.Metric
@@ -8,6 +7,9 @@ import KerrFormalization.Schwarzschild.Metric
 
 Concrete checks that the Kerr coordinate-data layer matches standard
 Boyer-Lindquist formulas and basic consistency reductions.
+
+STATUS (March 2026): This file is restricted to metric/component sanity checks;
+it does not certify Ricci-vanishing or vacuum completion.
 -/
 
 namespace KerrFormalization
@@ -121,8 +123,6 @@ theorem gPhiPhi_reduces_to_schwarzschild (M : ℝ) (x : CoordinateSpace 4)
 theorem gtPhi_zero_at_zero_spin (M : ℝ) (x : CoordinateSpace 4) :
     gtPhiField M 0 x = 0 := by
   simp [gtPhiField, sigma]
-
-#check kerrIsVacuum
 
 end ReductionToSchwarzschild
 

@@ -6,6 +6,9 @@ import KerrFormalization.LocalCoordinates.Vacuum
 
 This file records vacuum statements for Kerr in the current coordinate-data
 layer.
+
+STATUS: depends on incomplete Ricci component placeholders in
+`KerrFormalization/Kerr/Ricci.lean`; not exported from the default public API.
 -/
 
 namespace KerrFormalization

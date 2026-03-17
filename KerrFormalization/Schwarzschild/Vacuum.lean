@@ -6,6 +6,10 @@ import KerrFormalization.LocalCoordinates.Vacuum
 
 This file records vacuum statements for Schwarzschild in the current
 coordinate-data layer.
+
+STATUS: depends on incomplete Ricci component placeholders in
+`KerrFormalization/Schwarzschild/Ricci.lean`; not exported from the default
+public API.
 -/
 
 namespace KerrFormalization

@@ -2,39 +2,34 @@
 
 KerrFormalization is a Lean 4 project that formalizes Schwarzschild and Kerr black-hole geometry in a coordinate-data framework.
 
-It includes machine-checked vacuum theorems and a validation layer for core Kerr identities in Boyer-Lindquist coordinates.
+It includes machine-checked coordinate-data definitions and validation lemmas for core Kerr identities in Boyer-Lindquist coordinates.
 
 ## What this project does
 
-This repository builds a proof-checked library for exact black-hole spacetime formulas.
+This repository builds a proof-checked prototype library for exact black-hole spacetime formulas.
 
 Current scope includes:
 
 - a pseudo-Riemannian seed layer
 - a local coordinate/tensor-data layer
-- Schwarzschild metric definitions and vacuum theorem
-- Kerr metric definitions and vacuum theorem
+- Schwarzschild metric definitions and inverse-metric data
+- Kerr metric definitions and inverse-metric data
 - validation lemmas for horizons, ergoregion, and zero-spin (`a = 0`) reduction
 - a cleaned public API surface for exploration and reuse
 
-## What is proved (v1)
+## Current formal status (v1)
 
-At the current v1 stage, the library proves:
+At the current v1 stage, the library includes machine-checked:
 
-- **Schwarzschild is vacuum** in the project’s coordinate-data curvature model
-- **Kerr is vacuum** in the project’s coordinate-data curvature model
-
-It also validates key Kerr formulas and checks that the implemented objects match standard Boyer-Lindquist expectations:
-
-- `Delta` and `Sigma` expressions
-- representative metric components
+- Kerr `Delta` and `Sigma` identities
 - horizon helper identities
 - ergoregion membership criterion
 - meaningful `a = 0` reduction behavior toward Schwarzschild
+- metric/inverse-metric component formulas in the coordinate-data layer
 
 ## Important modeling note
 
-These results are formal and machine-checked, but they are currently developed in a **coordinate-data curvature framework**, not yet a fully abstract Lorentzian-manifold stack.
+These results are formal and machine-checked in a **coordinate-data curvature framework**, not yet a fully abstract Lorentzian-manifold stack.
 
 In practice, this means geometry is expressed using explicit coordinate data and supplied derivative structure, rather than a full abstract Levi-Civita/curvature development on smooth manifolds.
 
@@ -54,16 +49,22 @@ Formalization helps because Lean forces complete explicitness for:
 - long symbolic dependencies
 
 The goal is not to replace numerical relativity or symbolic GR packages.
-The goal is to provide a **machine-checked reference layer** for exact black-hole geometry.
+The goal is to provide a machine-checked coordinate-data reference layer for exact black-hole geometry.
 
 ## Why this is useful
 
 This library can serve as:
 
-- a **high-assurance reference** for Kerr and Schwarzschild formulas
+- a formal coordinate-data reference for Kerr and Schwarzschild formulas
 - a **foundation** for future formalizations (for example Kerr-Newman, Kerr-de Sitter, geodesics, hidden symmetries, black-hole mechanics)
 - a **theorem-proving testbed** for formal relativity
 - a **teaching aid** where assumptions and reductions are fully explicit
+
+## Incomplete pieces (tracked openly)
+
+- `KerrFormalization/Kerr/Ricci.lean` and `KerrFormalization/Schwarzschild/Ricci.lean` still contain placeholder Ricci-component vanishing proofs.
+- Vacuum theorem wrappers that depend on those Ricci files are currently not exported from the default public entry points.
+- Completing vacuum claims honestly requires finishing Ricci proofs from correct derivative data (or a stronger symbolic differentiation layer).
 
 ## What this project is not
 
@@ -97,9 +98,9 @@ Useful top-level imports:
 - `KerrFormalization/Warmup/`
   - Minkowski example
 - `KerrFormalization/Schwarzschild/`
-  - metric, inverse metric, component lemmas, Ricci/vacuum
+  - metric, inverse metric, component lemmas, and vacuum-prelude data
 - `KerrFormalization/Kerr/`
-  - Kerr definitions, inverse metric, Christoffel/Ricci/vacuum, horizons, ergoregion, reduction to Schwarzschild, sanity/validation
+  - Kerr definitions, inverse metric, Christoffel, horizons, ergoregion, reduction to Schwarzschild, sanity/validation
 
 ## Quick start (2 minutes)
 

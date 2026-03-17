@@ -9,17 +9,15 @@ Kerr formalization in Boyer-Lindquist coordinates.
 
 This module does not add new mathematics: it only re-exposes established results
 with names that are convenient for smoke checks and documentation.
+
+STATUS (March 2026): This facade intentionally excludes vacuum-theorem aliases
+until Ricci-vanishing component proofs are completed.
 -/
 
 namespace KerrFormalization
 namespace Kerr
 
 open LocalCoordinates
-
-/-- Public validation alias for the Kerr vacuum theorem. -/
-theorem kerrVacuumValidated (M a : ℝ) :
-    IsVacuumMetricData (kerrMetricData M a) (kerrInverseMetricWithDeriv M a) :=
-  kerrIsVacuum M a
 
 /-- Public validation alias for the Kerr `\Delta` formula. -/
 @[simp] theorem deltaFormula (M a r : ℝ) :
