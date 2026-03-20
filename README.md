@@ -102,6 +102,33 @@ Useful top-level imports:
 - `KerrFormalization/Kerr/`
   - Kerr definitions, inverse metric, Christoffel, horizons, ergoregion, reduction to Schwarzschild, sanity/validation
 
+## Conservation Laws
+
+The repository now includes a first-pass conservation-law layer for Kerr geodesics:
+
+- `KerrFormalization/Kerr/KillingTensor.lean`
+  - Form C Killing tensor components and the symmetrized Killing-equation theorem stub
+- `KerrFormalization/Kerr/Geodesic.lean`
+  - Kerr geodesic data structure using the coordinate Christoffel symbols
+- `KerrFormalization/Kerr/Conservation.lean`
+  - energy, angular momentum, and Carter-constant definitions together with theorem stubs
+
+These files are intended as the formal landing point for the Aristotle audit results and the paper's minimal-axiom-set analysis.
+
+## Paper
+
+This repository accompanies the paper "Minimal Axiom Sets for Kerr
+Geodesic Conservation Laws: A Machine-Verified Audit Using Aristotle"
+(submitted to Journal of Automated Reasoning, 2026).
+
+## Aristotle Results
+
+The full curated record of Aristotle submissions, returned Lean files,
+and summary notes is stored in:
+
+- `aristotle_submissions/`
+- `aristotle_submissions/SUBMISSIONS.md`
+
 ## Quick start (2 minutes)
 
 If you do not have Lean installed yet:

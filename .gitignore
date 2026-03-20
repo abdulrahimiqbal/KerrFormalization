@@ -3,3 +3,6 @@
 build/
 full_file_structure.txt
 .DS_Store
+.venv/
+.env
+__pycache__/

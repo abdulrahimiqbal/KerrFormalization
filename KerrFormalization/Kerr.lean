@@ -9,6 +9,9 @@ import KerrFormalization.Kerr.Christoffel
 import KerrFormalization.Kerr.Sanity
 import KerrFormalization.Kerr.ReductionToSchwarzschild
 import KerrFormalization.Kerr.Validation
+import KerrFormalization.Kerr.KillingTensor
+import KerrFormalization.Kerr.Geodesic
+import KerrFormalization.Kerr.Conservation
 
 /-!
 # Kerr public surface
