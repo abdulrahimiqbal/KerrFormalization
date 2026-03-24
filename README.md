@@ -82,12 +82,29 @@ It is a formal proof library, not a simulation engine.
 Useful top-level imports:
 
 - `KerrFormalization`
+- `KerrFormalization.Trusted`
+- `KerrFormalization.Experimental`
 - `KerrFormalization.Overview`
 - `KerrFormalization.Kerr`
 - `KerrFormalization.Kerr.Validation`
 - `KerrFormalization.Schwarzschild`
 - `KerrFormalization.LocalCoordinates`
 - `KerrFormalization.PseudoRiemannian`
+
+## Trusted Phase I surface
+
+The frozen, checked Phase I kernel lives under `KerrFormalization.Trusted` and
+is built from exact scalar expressions plus generated derivatives.
+
+Phase I trusted modules currently cover:
+
+- exact scalar-expression AST and derivative generation
+- exact Schwarzschild metric and inverse data
+- exact Kerr metric and inverse data
+- frozen submission manifest tooling
+
+Phase I does not yet include Ricci, vacuum, Killing tensor, geodesic, or
+perturbation-lab infrastructure.
 
 ## Repository layout
 

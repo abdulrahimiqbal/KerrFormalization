@@ -1,4 +1,4 @@
-import KerrFormalization.LocalCoordinates.Fields
+import KerrFormalization.LocalCoordinates.Basic
 import Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic
 
 /-!
@@ -27,12 +27,6 @@ noncomputable def delta (M a r : ℝ) : ℝ := r^2 - 2 * M * r + a^2
 
 /-- Kerr `Σ = r^2 + a^2 cos(θ)^2`. -/
 noncomputable def sigma (a r θ : ℝ) : ℝ := r^2 + a^2 * (Real.cos θ)^2
-
-/-- Radial coordinate field. -/
-def rField : CoordinateScalarField 4 := CoordinateScalarField.coord rIdx
-
-/-- Polar coordinate field. -/
-def thetaField : CoordinateScalarField 4 := CoordinateScalarField.coord thetaIdx
 
 /-- The unique nonzero off-diagonal Kerr index pair `(t, φ)` (in either order). -/
 def offDiagTPhi (i j : Fin 4) : Prop :=

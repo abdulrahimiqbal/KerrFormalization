@@ -4,9 +4,12 @@ import Mathlib.Data.Real.Basic
 /-!
 # Coordinate scalar fields with supplied partial derivatives
 
-This file upgrades the local-coordinate scaffold from raw scalar-valued functions
-with placeholder derivatives to scalar fields that *carry* their first partial
-coordinate derivatives as data.
+This file is the legacy compatibility container for scalar-valued fields with
+supplied partial derivatives.
+
+Phase I trusted code should prefer the exact-expression kernel under
+`KerrFormalization.Trusted` instead of constructing fields directly with
+free-form derivative payloads.
 
 This avoids depending on a fragile analysis API while still letting later files
 write mathematically meaningful Christoffel-symbol formulas.

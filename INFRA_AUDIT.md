@@ -1,0 +1,363 @@
+# KerrFormalization Infrastructure Audit
+
+## 1. Repo fingerprint
+- commit
+  - `571e0b6ac322646666c8d5cbe638b4d042d73922`
+- lean toolchain
+  - `leanprover/lean4:v4.29.0-rc6`
+- mathlib pin situation
+  - `lakefile.lean` still says `require mathlib ... @ "master"`.
+  - `lake-manifest.json` currently resolves that to mathlib rev `11d58e7e9180ec5c67dbf676130c12900a04659a`.
+  - This means the current checkout is only accidentally reproducible while the manifest is preserved; a fresh resolve can move.
+- top-level public surface
+  - `KerrFormalization.lean` re-exports `PseudoRiemannian`, `LocalCoordinates`, `Warmup`, `Schwarzschild`, `Kerr`, `Overview`.
+  - `KerrFormalization/Kerr.lean` re-exports `Basic`, `BoyerLindquist`, `InverseMetric`, `ComponentLemmas`, `Horizons`, `Symmetries`, `Ergoregion`, `Christoffel`, `Sanity`, `ReductionToSchwarzschild`, `Validation`.
+  - `KerrFormalization/Kerr.lean` intentionally does not re-export `Kerr/Ricci.lean` or `Kerr/Vacuum.lean`.
+  - `KerrFormalization/Schwarzschild.lean` intentionally does not re-export `Schwarzschild/Ricci.lean` or `Schwarzschild/Vacuum.lean`.
+  - `KerrFormalization/Overview.lean` only exposes validation aliases: `deltaFormula_v1`, `sigmaFormula_v1`, `outerHorizonIsDeltaRoot_v1`, `ergoregionCriterion_v1`.
+  - `KerrFormalization/Verification.lean` exists but is outside the current repo contract; it imports many modules that are absent from this repo.
+
+## 2. What is already real and reusable
+- Semantically solid coordinate/formula layer today
+  - `KerrFormalization/Kerr/Basic.lean`
+  - `KerrFormalization/Kerr/Horizons.lean`
+  - `KerrFormalization/Kerr/Ergoregion.lean`
+  - `KerrFormalization/Kerr/Sanity.lean`
+  - `KerrFormalization/Kerr/ReductionToSchwarzschild.lean`
+  - `KerrFormalization/Kerr/Validation.lean`
+  - `KerrFormalization/Schwarzschild/Metric.lean`
+  - `KerrFormalization/Schwarzschild/InverseMetric.lean`
+  - `KerrFormalization/Schwarzschild/Christoffel.lean`
+  - `KerrFormalization/Schwarzschild/ComponentLemmas.lean`
+  - `KerrFormalization/Schwarzschild/VacuumPrelude.lean`
+- Structurally real but trust-limited infrastructure
+  - `KerrFormalization/LocalCoordinates/Fields.lean`
+  - `KerrFormalization/LocalCoordinates/MetricData.lean`
+  - `KerrFormalization/LocalCoordinates/ChristoffelData.lean`
+  - `KerrFormalization/LocalCoordinates/ChristoffelDeriv.lean`
+  - These compile and are reusable as APIs, but they accept supplied derivative data without any exactness guarantee.
+- Exact definitions / theorems that already look like durable foundations
+  - `Kerr.delta`, `Kerr.sigma`
+  - `Kerr.outerHorizon`, `Kerr.innerHorizon`
+  - `Kerr.horizon_sum`, `Kerr.horizon_product`, `Kerr.delta_outerHorizon_eq_zero`, `Kerr.delta_innerHorizon_eq_zero`
+  - `Kerr.ergoregion`, `Kerr.ergosphere`, `Kerr.mem_ergoregion_iff`, `Kerr.mem_ergosphere_iff`
+  - `Kerr.metric_tt`, `Kerr.metric_rr`, `Kerr.metric_thetaTheta`, `Kerr.metric_tPhi`, `Kerr.metric_phiPhi`
+  - `Kerr.zeroSpinComponentAgreement`
+  - `Schwarzschild.metric_tt`, `Schwarzschild.metric_rr`, `Schwarzschild.metric_phiPhi`
+  - `Schwarzschild.partial_tt_r`, `Schwarzschild.partial_rr_r`, `Schwarzschild.partial_phiPhi_theta`
+  - `Schwarzschild.christoffel_t_tt_zero`, `Schwarzschild.christoffel_r_tt`
+- Targeted single-file typechecks
+  - `ok`: `LocalCoordinates/Fields.lean`, `MetricData.lean`, `InverseMetric.lean`, `ChristoffelData.lean`, `ChristoffelDeriv.lean`, `Curvature.lean`, `Kerr/BoyerLindquist.lean`, `Kerr/InverseMetric.lean`, `Kerr/Christoffel.lean`, `Kerr/Ricci.lean`, `Kerr/Vacuum.lean`, `Kerr/Validation.lean`, `Kerr/Sanity.lean`, `Kerr/Symmetries.lean`, `Overview.lean`, `Kerr.lean`
+  - `timeout`: `Smoke.lean` timed out after 120s in a direct single-file `lake env lean` check
+  - `absent`: `Kerr/KillingTensor.lean`, `Kerr/Geodesic.lean`, `Kerr/Conservation.lean`
+
+## 3. Where the semantic holes are
+- `KerrFormalization/LocalCoordinates/InverseMetric.lean`
+  - `IsInverseMetric` is literally `True`.
+  - Current consequence: there is no checked relation between any metric and its claimed inverse.
+- `KerrFormalization/LocalCoordinates/Christoffel.lean`
+  - `christoffelSymbols` is hard-coded to `0`.
+  - This generic layer is unusable as a trusted source of geometry.
+- `KerrFormalization/LocalCoordinates/Curvature.lean`
+  - `riemannComponents` is hard-coded to `0`.
+  - `metricRicciComponents` is hard-coded to `0`.
+  - The data-driven versions `riemannComponentsFromMetricData` and `ricciComponentsFromMetricData` are nontrivial, but the generic abstraction layer is still a stub.
+- `KerrFormalization/LocalCoordinates/Fields.lean`
+  - `CoordinateScalarField` stores `toFun`, `deriv`, and `deriv2` as free data.
+  - No proof ties `deriv` or `deriv2` to `toFun`.
+  - This is the core trust-boundary leak.
+- `KerrFormalization/Kerr/BoyerLindquist.lean`
+  - `gttField`, `grrField`, `gtPhiField`, and `gPhiPhiField` all use `deriv2 := fun _ _ _ => 0`.
+  - Only `gThetaThetaField` has meaningful second derivatives.
+  - Honest Ricci/vacuum cannot rest on these zero second derivatives.
+- `KerrFormalization/Kerr/InverseMetric.lean`
+  - The comment says derivative slots are placeholders.
+  - First derivatives are handwritten and nontrivial, but there is still no proof that `kerrInverseMetricData` is actually inverse to `kerrMetricData`.
+  - There is also no second-derivative layer for inverse components.
+- `KerrFormalization/Kerr/Ricci.lean`
+  - 16 component lemmas are explicit `sorry`.
+  - `ricci_component_zero` and all exported zero lemmas are shells over those `sorry`s.
+- `KerrFormalization/Kerr/Vacuum.lean`
+  - `kerrRicciZero` and `kerrIsVacuum` compile, but only because `Kerr/Ricci.lean` compiles with `sorry`.
+- `KerrFormalization/Schwarzschild/Ricci.lean`
+  - 16 component lemmas are explicit `sorry`.
+  - Same shell problem as Kerr.
+- `KerrFormalization/Schwarzschild/Vacuum.lean`
+  - Vacuum wrapper over placeholder Ricci proofs.
+- `KerrFormalization/Verification.lean`
+  - Static mismatch with repo reality.
+  - It imports absent modules such as:
+    - `KerrFormalization.Foundations.SemiRiemannianMetric`
+    - `KerrFormalization.Foundations.LeviCivitaConnection`
+    - `KerrFormalization.Coordinates.MetricComponents`
+    - `KerrFormalization.FieldEquations.VacuumEinstein`
+    - `KerrFormalization.Kerr.KerrSchild`
+    - `KerrFormalization.Kerr.VacuumProof`
+    - `KerrFormalization.Kerr.KillingTensor`
+    - `KerrFormalization.Kerr.CarterConstant`
+    - `KerrFormalization.Physics.SurfaceGravity`
+    - `KerrFormalization.Physics.BlackHoleMechanics`
+- Absent infrastructure
+  - `KerrFormalization/Kerr/KillingTensor.lean` absent
+  - `KerrFormalization/Kerr/Geodesic.lean` absent
+  - `KerrFormalization/Kerr/Conservation.lean` absent
+  - `KerrFormalization/Paper2/OpenProblems/WitnessLockedSeedBatch.lean` absent
+  - `KerrFormalization/Paper2/OpenProblems/SeedObjectPhysicalityBatch.lean` absent
+  - `aristotle_submissions/SUBMISSIONS.md` absent
+- Worst offenders
+  - `LocalCoordinates/Fields.lean` because it makes derivative data synthetic by construction.
+  - `LocalCoordinates/InverseMetric.lean` because inverse correctness is currently vacuous.
+  - `LocalCoordinates/Christoffel.lean` and `LocalCoordinates/Curvature.lean` because the generic geometry layer still contains zero stubs.
+  - `Kerr/BoyerLindquist.lean` because second derivatives are zeroed where Ricci needs exact curvature input.
+  - `Kerr/Ricci.lean` and `Schwarzschild/Ricci.lean` because the current vacuum lane is still theorem-shell only.
+
+## 4. Trust-boundary problem
+- How Aristotle-style escape is still possible today
+  - The repo lets a theorem depend on arbitrary supplied derivatives via `CoordinateScalarField`.
+  - A synthetic environment can preserve theorem names while swapping in rebuilt local files whose derivative payloads differ.
+  - `IsInverseMetric := True` means an inverse can be replaced without any checked algebraic obligation.
+  - The generic Christoffel/Riemann/Ricci layer still contains zero stubs, so theorem names alone do not certify semantic content.
+  - `lakefile.lean` points at mathlib `master`, so dependency resolution is not frozen at the source level.
+  - There is no submission manifest recording the exact imported local module closure, file hashes, or resolved dependency revs.
+- Minimum viable frozen-kernel architecture
+  - Trusted kernel should be the smallest no-`sorry`, no-free-derivative, no-placeholder subset that defines:
+    - exact scalar expressions for metric components
+    - generated first and second derivatives
+    - checked inverse-metric relation
+    - Christoffel derivatives
+    - Ricci evaluator
+  - Proposed files/directories to add
+    - `KerrFormalization/Trusted/ScalarExpr.lean`
+    - `KerrFormalization/Trusted/ScalarExprDeriv.lean`
+    - `KerrFormalization/Trusted/ExactField.lean`
+    - `KerrFormalization/Trusted/ExactMetricData.lean`
+    - `KerrFormalization/Trusted/ExactInverseMetric.lean`
+    - `KerrFormalization/Trusted/FreezeManifest.lean`
+    - `KerrFormalization/Trusted.lean`
+    - `scripts/generate_freeze_manifest.py`
+    - `scripts/verify_freeze_manifest.py`
+    - `aristotle_submissions/frozen_kernel/README.md`
+    - `aristotle_submissions/frozen_kernel/manifest.json`
+  - Smallest viable frozen submission kernel
+    - Inputs
+      - `lean-toolchain`
+      - `lakefile.lean`
+      - `lake-manifest.json`
+      - trusted local module closure only
+    - Trusted module closure to freeze first
+      - `KerrFormalization/LocalCoordinates/Basic.lean`
+      - new `KerrFormalization/Trusted/*`
+      - `KerrFormalization/Kerr/Basic.lean`
+      - exact replacements for `Kerr/BoyerLindquist.lean`, `Kerr/InverseMetric.lean`, `Kerr/Ricci.lean`, `Kerr/Vacuum.lean`
+      - exact Schwarzschild analogs as canary modules
+    - Manifest contents
+      - git commit
+      - Lean toolchain
+      - resolved dependency revs from `lake-manifest.json`
+      - SHA256 of every imported local source file in the submission closure
+      - list of exported theorem names the batch is allowed to cite
+    - Submission rule
+      - Aristotle gets only the frozen closure plus manifest; no live repo rebuilding outside that closure.
+
+## 5. Remaining infrastructure, in priority order
+- name
+  - Freeze manifest and submission kernel
+  - why it matters
+    - Without this, theorem names can still be satisfied against silently changed local dependencies.
+  - exact files to create/edit
+    - edit `lakefile.lean`
+    - create `KerrFormalization/Trusted/FreezeManifest.lean`
+    - create `scripts/generate_freeze_manifest.py`
+    - create `scripts/verify_freeze_manifest.py`
+    - create `aristotle_submissions/frozen_kernel/manifest.json`
+  - acceptance test
+    - verifier fails if any imported trusted file hash, toolchain, or dependency rev changes
+  - whether it is trusted-core or experimental-lab
+    - trusted-core
+- name
+  - Exact scalar-expression derivative kernel
+  - why it matters
+    - Current `CoordinateScalarField` permits synthetic derivatives; exact curvature cannot be trusted until derivatives are generated from expressions.
+  - exact files to create/edit
+    - create `KerrFormalization/Trusted/ScalarExpr.lean`
+    - create `KerrFormalization/Trusted/ScalarExprDeriv.lean`
+    - create `KerrFormalization/Trusted/ExactField.lean`
+    - edit `KerrFormalization/LocalCoordinates/Fields.lean` only to demote or wall off the free-data API
+  - acceptance test
+    - every trusted metric component is built from expression AST plus generated `deriv` and `deriv2`; no trusted file contains `deriv := fun ...` by hand except primitive constructors
+  - whether it is trusted-core or experimental-lab
+    - trusted-core
+- name
+  - Exact Kerr metric and inverse kernel
+  - why it matters
+    - `Kerr/BoyerLindquist.lean` still zeroes critical second derivatives and `LocalCoordinates/InverseMetric.lean` cannot certify inverse correctness.
+  - exact files to create/edit
+    - create `KerrFormalization/Kerr/BoyerLindquistExact.lean`
+    - create `KerrFormalization/Kerr/InverseMetricExact.lean`
+    - edit `KerrFormalization/Kerr.lean`
+    - edit `KerrFormalization/Kerr/BoyerLindquist.lean`
+    - edit `KerrFormalization/Kerr/InverseMetric.lean`
+    - edit `KerrFormalization/LocalCoordinates/InverseMetric.lean`
+  - acceptance test
+    - prove the matrix identity `g * g⁻¹ = I` componentwise for the trusted exact metric and inverse
+  - whether it is trusted-core or experimental-lab
+    - trusted-core
+- name
+  - Honest curvature and vacuum lane
+  - why it matters
+    - Current vacuum theorems compile only because Ricci lemmas are `sorry`.
+  - exact files to create/edit
+    - edit `KerrFormalization/LocalCoordinates/Curvature.lean`
+    - create `KerrFormalization/Kerr/RicciExact.lean`
+    - create `KerrFormalization/Kerr/VacuumExact.lean`
+    - create `KerrFormalization/Schwarzschild/RicciExact.lean`
+    - create `KerrFormalization/Schwarzschild/VacuumExact.lean`
+    - edit `KerrFormalization/Kerr/Ricci.lean`
+    - edit `KerrFormalization/Kerr/Vacuum.lean`
+    - edit `KerrFormalization/Schwarzschild/Ricci.lean`
+    - edit `KerrFormalization/Schwarzschild/Vacuum.lean`
+  - acceptance test
+    - no `sorry` in any Ricci/vacuum file; all 16 Kerr and 16 Schwarzschild Ricci component zeros typecheck from exact derivative data
+  - whether it is trusted-core or experimental-lab
+    - trusted-core
+- name
+  - Covariant-derivative machinery for hidden symmetry
+  - why it matters
+    - Killing tensor, geodesics, and conservation require a real covariant derivative layer, not just coordinate identities.
+  - exact files to create/edit
+    - create `KerrFormalization/Trusted/CovariantDerivative.lean`
+    - create `KerrFormalization/Kerr/KillingTensor.lean`
+    - create `KerrFormalization/Kerr/Geodesic.lean`
+    - create `KerrFormalization/Kerr/Conservation.lean`
+  - acceptance test
+    - a trusted proof that the chosen Killing tensor satisfies the symmetric covariant-derivative equation on the exact Kerr kernel
+  - whether it is trusted-core or experimental-lab
+    - mixed: core machinery trusted-core, exploration theorems can start experimental-lab
+- name
+  - Quotient / ghost / perturbation lab
+  - why it matters
+    - This is where the already-observed quotient obstruction and ghost-mode evidence should live as reusable search infrastructure rather than one-off batch artifacts.
+  - exact files to create/edit
+    - create `KerrFormalization/Experimental/Quotient.lean`
+    - create `KerrFormalization/Experimental/GhostModes.lean`
+    - create `KerrFormalization/Experimental/PerturbationResiduals.lean`
+    - create `KerrFormalization/Experimental/AristotleHarness.lean`
+    - create `KerrFormalization/Paper2/OpenProblems/WitnessLockedSeedBatch.lean`
+    - create `KerrFormalization/Paper2/OpenProblems/SeedObjectPhysicalityBatch.lean`
+    - create `aristotle_submissions/SUBMISSIONS.md`
+  - acceptance test
+    - a moonshot run can only consume frozen trusted-core objects and must emit residuals / obstructions against explicit quotient and ghost interfaces
+  - whether it is trusted-core or experimental-lab
+    - experimental-lab
+- name
+  - Reproducibility contract and namespace split
+  - why it matters
+    - Trusted discovery needs a clean split between certifying code and exploratory code.
+  - exact files to create/edit
+    - edit `lakefile.lean`
+    - create `KerrFormalization/Trusted.lean`
+    - create `KerrFormalization/Experimental.lean`
+    - edit `KerrFormalization.lean`
+    - edit `README.md`
+  - acceptance test
+    - public trusted entrypoint imports no file containing `sorry`, no generic zero-stub geometry, and no free derivative payloads
+  - whether it is trusted-core or experimental-lab
+    - trusted-core
+
+## 6. 3-phase implementation plan
+- Phase I = freeze + exact local kernel
+  - concrete tasks
+    - pin mathlib in `lakefile.lean` to the currently resolved manifest rev
+    - add manifest generator/verifier and frozen trusted closure
+    - build exact scalar-expression kernel and generated derivative layer
+    - replace Kerr and Schwarzschild trusted metric components with generated first and second derivatives
+    - replace `IsInverseMetric := True` with a real componentwise inverse contract
+  - target modules
+    - `lakefile.lean`
+    - `KerrFormalization/Trusted/*`
+    - `KerrFormalization/LocalCoordinates/Fields.lean`
+    - `KerrFormalization/LocalCoordinates/InverseMetric.lean`
+    - `KerrFormalization/Kerr/BoyerLindquist*.lean`
+    - `KerrFormalization/Kerr/InverseMetric*.lean`
+    - `KerrFormalization/Schwarzschild/Metric.lean`
+    - `KerrFormalization/Schwarzschild/InverseMetric.lean`
+  - dependency order
+    - freeze manifest first
+    - expression AST second
+    - exact derivatives third
+    - inverse correctness fourth
+  - done means
+    - trusted kernel has no free derivative payloads
+    - trusted inverse relation is proven
+    - submission verifier rejects any unfrozen dependency change
+- Phase II = honest Kerr curvature/vacuum + exact hidden symmetry
+  - concrete tasks
+    - upgrade curvature lane to consume only exact derivative kernel
+    - complete Schwarzschild Ricci as the canary lane
+    - complete Kerr Ricci and vacuum with no `sorry`
+    - add covariant derivative machinery
+    - add first real `KillingTensor`, `Geodesic`, and `Conservation` modules
+  - target modules
+    - `KerrFormalization/LocalCoordinates/Curvature.lean`
+    - `KerrFormalization/Schwarzschild/Ricci*.lean`
+    - `KerrFormalization/Schwarzschild/Vacuum*.lean`
+    - `KerrFormalization/Kerr/Ricci*.lean`
+    - `KerrFormalization/Kerr/Vacuum*.lean`
+    - `KerrFormalization/Trusted/CovariantDerivative.lean`
+    - `KerrFormalization/Kerr/KillingTensor.lean`
+    - `KerrFormalization/Kerr/Geodesic.lean`
+    - `KerrFormalization/Kerr/Conservation.lean`
+  - dependency order
+    - Schwarzschild exact Ricci first
+    - Kerr exact Ricci second
+    - Kerr vacuum third
+    - hidden-symmetry covariant derivative fourth
+  - done means
+    - no `sorry` in Ricci/vacuum
+    - public trusted Kerr surface can include vacuum
+    - first hidden-symmetry theorem is derived from exact covariant machinery
+- Phase III = quotient/ghost/perturbation discovery lab + global bridge
+  - concrete tasks
+    - create reusable quotient and ghost interfaces
+    - encode perturbation residual and obstruction objects
+    - move Aristotle batch logic into a frozen harness that only consumes trusted-core exports
+    - optionally build a bridge toward a more global manifold-style API after exact local kernel is stable
+  - target modules
+    - `KerrFormalization/Experimental/Quotient.lean`
+    - `KerrFormalization/Experimental/GhostModes.lean`
+    - `KerrFormalization/Experimental/PerturbationResiduals.lean`
+    - `KerrFormalization/Experimental/AristotleHarness.lean`
+    - `KerrFormalization/Paper2/OpenProblems/*.lean`
+    - `aristotle_submissions/SUBMISSIONS.md`
+    - future bridge modules under `KerrFormalization/Foundations/` only after trusted-core is stable
+  - dependency order
+    - trusted-core freeze first
+    - experimental lab second
+    - global bridge last
+  - done means
+    - future moonshots can be run safely against frozen trusted inputs
+    - ghost / quotient / perturbation findings are emitted as explicit residual objects, not free-form theorem shells
+
+## 7. Fastest path to a trustworthy next Aristotle run
+- what to freeze
+  - freeze only the exact local kernel: toolchain, manifest, trusted exact metric/inverse/Christoffel/Ricci modules, and the exact imported local closure
+- what theorem family to retry first
+  - retry Kerr Ricci component identities first, but only after the exact derivative kernel exists
+  - use Schwarzschild exact Ricci as the canary before the first Kerr Aristotle run
+- what NOT to submit again until the freeze layer exists
+  - do not submit any theorem that depends on `CoordinateScalarField` free derivative payloads
+  - do not submit anything resting on `IsInverseMetric := True`
+  - do not submit `Kerr/Ricci.lean`, `Kerr/Vacuum.lean`, `Schwarzschild/Ricci.lean`, or `Schwarzschild/Vacuum.lean` in their current form
+  - do not submit hidden-symmetry or conservation claims until `Kerr/KillingTensor.lean`, `Kerr/Geodesic.lean`, and `Kerr/Conservation.lean` exist in the frozen exact kernel
+
+## 8. Bottom line
+- The repo already has a real coordinate-formula layer for Kerr/Schwarzschild validation, horizons, ergoregion, and zero-spin reduction.
+- The repo does not yet have a trustworthy exact derivative kernel.
+- The main trust leak is `CoordinateScalarField` carrying unchecked derivative data.
+- The inverse-metric contract is currently vacuous because `IsInverseMetric` is `True`.
+- The generic geometry layer still contains zero stubs for Christoffel and Ricci.
+- Kerr and Schwarzschild vacuum files compile only because their Ricci files still contain `sorry`.
+- Hidden-symmetry / geodesic / conservation modules are absent, not merely unfinished.
+- The repo has no frozen submission manifest and no submission directory contract today.
+- `lakefile.lean` should stop pointing to mathlib `master`; pin the current manifest rev explicitly.
+- Next engineering week should be spent on Phase I only: pin dependencies, add freeze-manifest tooling, build the exact scalar-expression derivative kernel, and replace the fake inverse contract.

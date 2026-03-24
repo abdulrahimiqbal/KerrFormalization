@@ -1,4 +1,4 @@
-import KerrFormalization.LocalCoordinates.Fields
+import KerrFormalization.LocalCoordinates.Basic
 import Mathlib.Analysis.SpecialFunctions.Trigonometric.Basic
 
 /-!
@@ -29,16 +29,8 @@ noncomputable def lapse (M r : ℝ) : ℝ := 1 - (2 * M) / r
 def exteriorDomain (M : ℝ) : CoordinateDomain 4 :=
   fun x => 2 * M < x rIdx
 
-/-- The radial coordinate field. -/
-def rField : CoordinateScalarField 4 := CoordinateScalarField.coord rIdx
-
-/-- The polar angle field. -/
-def thetaField : CoordinateScalarField 4 := CoordinateScalarField.coord thetaIdx
-
 #check lapse
 #check exteriorDomain
-#check rField
-#check thetaField
 
 end Schwarzschild
 end KerrFormalization
