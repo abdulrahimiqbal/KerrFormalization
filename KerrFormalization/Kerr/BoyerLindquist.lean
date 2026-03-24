@@ -20,13 +20,29 @@ def boyerLindquistDomain (M a : ℝ) : CoordinateDomain 4 :=
 /-- `g_tt` for Kerr in Boyer-Lindquist coordinates. -/
 noncomputable def gttField (M a : ℝ) : CoordinateScalarField 4 where
   toFun := fun x => -(1 - (2 * M * x rIdx) / sigma a (x rIdx) (x thetaIdx))
-  deriv := fun _ _ => 0
+  deriv := fun k x =>
+    if k = rIdx then
+      2 * M * (sigma a (x rIdx) (x thetaIdx) - 2 * (x rIdx) ^ 2) /
+        (sigma a (x rIdx) (x thetaIdx)) ^ 2
+    else if k = thetaIdx then
+      2 * M * (x rIdx) * a ^ 2 * Real.sin (2 * x thetaIdx) /
+        (sigma a (x rIdx) (x thetaIdx)) ^ 2
+    else 0
   deriv2 := fun _ _ _ => 0
 
 /-- `g_rr` for Kerr in Boyer-Lindquist coordinates. -/
 noncomputable def grrField (M a : ℝ) : CoordinateScalarField 4 where
   toFun := fun x => sigma a (x rIdx) (x thetaIdx) / delta M a (x rIdx)
-  deriv := fun _ _ => 0
+  deriv := fun k x =>
+    let r := x rIdx
+    let θ := x thetaIdx
+    let S := sigma a r θ
+    let D := delta M a r
+    if k = rIdx then
+      (2 * r * D - S * (2 * r - 2 * M)) / D ^ 2
+    else if k = thetaIdx then
+      -a ^ 2 * Real.sin (2 * θ) / D
+    else 0
   deriv2 := fun _ _ _ => 0
 
 /-- `g_θθ = Σ` for Kerr in Boyer-Lindquist coordinates. -/
@@ -46,7 +62,16 @@ noncomputable def gThetaThetaField (a : ℝ) : CoordinateScalarField 4 where
 noncomputable def gtPhiField (M a : ℝ) : CoordinateScalarField 4 where
   toFun := fun x =>
     -(2 * M * a * x rIdx * (Real.sin (x thetaIdx))^2 / sigma a (x rIdx) (x thetaIdx))
-  deriv := fun _ _ => 0
+  deriv := fun k x =>
+    let r := x rIdx
+    let θ := x thetaIdx
+    let S := sigma a r θ
+    let s := Real.sin θ
+    if k = rIdx then
+      -2 * M * a * s ^ 2 * (S - 2 * r ^ 2) / S ^ 2
+    else if k = thetaIdx then
+      -2 * M * a * r * Real.sin (2 * θ) * (r ^ 2 + a ^ 2) / S ^ 2
+    else 0
   deriv2 := fun _ _ _ => 0
 
 /-- `g_φφ` for Kerr in Boyer-Lindquist coordinates. -/
@@ -54,7 +79,20 @@ noncomputable def gPhiPhiField (M a : ℝ) : CoordinateScalarField 4 where
   toFun := fun x =>
     (((x rIdx)^2 + a^2)^2 - a^2 * delta M a (x rIdx) * (Real.sin (x thetaIdx))^2)
       * (Real.sin (x thetaIdx))^2 / sigma a (x rIdx) (x thetaIdx)
-  deriv := fun _ _ => 0
+  deriv := fun k x =>
+    let r := x rIdx
+    let θ := x thetaIdx
+    let S := sigma a r θ
+    let D := delta M a r
+    let s := Real.sin θ
+    let A := (r ^ 2 + a ^ 2) ^ 2 - D * a ^ 2 * s ^ 2
+    if k = rIdx then
+      s ^ 2 *
+        (S * (4 * r * (r ^ 2 + a ^ 2) - (2 * r - 2 * M) * a ^ 2 * s ^ 2) - 2 * r * A) /
+        S ^ 2
+    else if k = thetaIdx then
+      Real.sin (2 * θ) * ((A - D * a ^ 2 * s ^ 2) * S + a ^ 2 * A * s ^ 2) / S ^ 2
+    else 0
   deriv2 := fun _ _ _ => 0
 
 theorem offDiagTPhi_symm {i j : Fin 4} :
