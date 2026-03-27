@@ -103,8 +103,9 @@ Phase I trusted modules currently cover:
 - exact Kerr metric and inverse data
 - frozen submission manifest tooling
 
-Phase I does not yet include Ricci, vacuum, Killing tensor, geodesic, or
-perturbation-lab infrastructure.
+The hidden-symmetry and conservation scaffolding now lives in the main Kerr
+surface, while the trusted kernel remains focused on exact scalar formulas and
+generated derivatives.
 
 ## Repository layout
 
@@ -129,6 +130,31 @@ The repository now includes a first-pass conservation-law layer for Kerr geodesi
   - Kerr geodesic data structure using the coordinate Christoffel symbols
 - `KerrFormalization/Kerr/Conservation.lean`
   - energy, angular momentum, and Carter-constant definitions together with theorem stubs
+
+## Hidden Symmetries
+
+The hidden-symmetry chain is now being recorded explicitly, starting from the
+standard Kerr Killing-Yano 2-form:
+
+- `KerrFormalization/Kerr/KillingYano.lean`
+  - exact Boyer-Lindquist component formulas for the Kerr Killing-Yano 2-form
+- `KerrFormalization/Kerr/KillingYanoEquation.lean`
+  - the covariant Killing-Yano equation stated against the existing Christoffel data
+- `KerrFormalization/Kerr/KillingYanoToKillingTensor.lean`
+  - the pointwise square `K_ab = f_ac g^cd f_db` and the abstract route to a Killing tensor
+- `KerrFormalization/Kerr/CarterFromKillingYano.lean`
+  - the non-circular Carter-conservation chain
+- `KerrFormalization/Kerr/KillingYanoResidual.lean`
+  - deformation residuals and Carter-drift scaffolding tied to the Round 2 probes
+- `KerrFormalization/Kerr/Weyl.lean`
+  - Weyl/Petrov scaffold for the type-D hidden-symmetry story
+
+The intended proof path is:
+
+`Killing-Yano 2-form -> Killing tensor square -> symmetrized Killing tensor equation -> Carter constant conservation`.
+
+That is the route we want Aristotle to attack, rather than assuming Carter
+conservation directly.
 
 These files are intended as the formal landing point for the Aristotle audit results and the paper's minimal-axiom-set analysis.
 

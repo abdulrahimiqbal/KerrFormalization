@@ -55,7 +55,8 @@ noncomputable def killingTensorFormC (M a : ℝ) (x : CoordinateSpace 4) :
 theorem killingTensorFormC_symm (M a : ℝ) (x : CoordinateSpace 4)
     (μ ν : Fin 4) :
     killingTensorFormC M a x μ ν = killingTensorFormC M a x ν μ := by
-  sorry
+  fin_cases μ <;> fin_cases ν <;>
+    simp [killingTensorFormC, tIdx, rIdx, thetaIdx, phiIdx]
 
 /-- Partial derivative of the Killing tensor: ∂_α K_μν.
     Aristotle should compute this from the explicit component definitions. -/
@@ -86,6 +87,10 @@ theorem symmetrized_killing_equation_formC (M a : ℝ)
       covDerivKillingFormC M a x μ ν α +
       covDerivKillingFormC M a x ν α μ = 0 := by
   clear hSigma hDelta hSin
+  -- ATTEMPT: this should follow by expanding `partialKillingTensorFormC` from the
+  -- exact component formulas and then simplifying the Christoffel sums, but the
+  -- current file still has the derivative placeholder `0` and needs a real exact
+  -- derivative expansion before the algebra can close.
   sorry
 
 end Kerr

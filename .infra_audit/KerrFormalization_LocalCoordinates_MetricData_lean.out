@@ -1,0 +1,5 @@
+KerrFormalization.LocalCoordinates.CoordinateMetricData (n : ℕ) : Type
+KerrFormalization.LocalCoordinates.InverseMetricData (n : ℕ) : Type
+KerrFormalization.LocalCoordinates.InverseMetricDataWithDeriv (n : ℕ) : Type
+KerrFormalization.LocalCoordinates.CoordinateMetricData.diagonal {n : ℕ} (domain : CoordinateDomain n)
+  (diag : Fin n → CoordinateScalarField n) : CoordinateMetricData n

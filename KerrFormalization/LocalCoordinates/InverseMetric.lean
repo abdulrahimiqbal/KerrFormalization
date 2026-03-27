@@ -1,5 +1,7 @@
 import KerrFormalization.LocalCoordinates.MetricMatrix
 import Mathlib.Algebra.BigOperators.Group.Finset.Basic
+import Mathlib.Data.Fin.Basic
+import Mathlib.Data.Fintype.Basic
 
 namespace KerrFormalization
 namespace LocalCoordinates

@@ -1,0 +1,42 @@
+KerrFormalization/Kerr/ComponentLemmas.lean:62:29: warning: This simp argument is unused:
+  rIdx
+
+Hint: Omit it from the simp argument list.
+  simp [kerrDiagField, tIdx, r̵I̵d̵x̵,̵ ̵thetaIdx, phiIdx]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+KerrFormalization/Kerr/ComponentLemmas.lean:62:35: warning: This simp argument is unused:
+  thetaIdx
+
+Hint: Omit it from the simp argument list.
+  simp [kerrDiagField, tIdx, rIdx, t̵h̵e̵t̵a̵I̵d̵x̵,̵ ̵phiIdx]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+KerrFormalization/Kerr/ComponentLemmas.lean:62:45: warning: This simp argument is unused:
+  phiIdx
+
+Hint: Omit it from the simp argument list.
+  simp [kerrDiagField, tIdx, rIdx, thetaIdx,̵ ̵p̵h̵i̵I̵d̵x̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+KerrFormalization/Kerr/ComponentLemmas.lean:66:35: warning: This simp argument is unused:
+  thetaIdx
+
+Hint: Omit it from the simp argument list.
+  simp [kerrDiagField, tIdx, rIdx, t̵h̵e̵t̵a̵I̵d̵x̵,̵ ̵phiIdx]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+KerrFormalization/Kerr/ComponentLemmas.lean:66:45: warning: This simp argument is unused:
+  phiIdx
+
+Hint: Omit it from the simp argument list.
+  simp [kerrDiagField, tIdx, rIdx, thetaIdx,̵ ̵p̵h̵i̵I̵d̵x̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+KerrFormalization/Kerr/ComponentLemmas.lean:70:45: warning: This simp argument is unused:
+  phiIdx
+
+Hint: Omit it from the simp argument list.
+  simp [kerrDiagField, tIdx, rIdx, thetaIdx,̵ ̵p̵h̵i̵I̵d̵x̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

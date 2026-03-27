@@ -62,6 +62,50 @@ noncomputable def kerrInverseMetricData (M a : ℝ) : InverseMetricData 4 :=
       else 0
     else 0
 
+@[simp] theorem kerrInverseMetric_tt (M a : ℝ) (x : CoordinateSpace 4) :
+    kerrInverseMetricData M a x tIdx tIdx =
+      -((((x rIdx)^2 + a^2)^2 - a^2 * delta M a (x rIdx) * (Real.sin (x thetaIdx))^2) /
+        (delta M a (x rIdx) * sigma a (x rIdx) (x thetaIdx))) := by
+  simp [kerrInverseMetricData, offDiagTPhi, tIdx, rIdx, thetaIdx, phiIdx]
+
+@[simp] theorem kerrInverseMetric_rr (M a : ℝ) (x : CoordinateSpace 4) :
+    kerrInverseMetricData M a x rIdx rIdx =
+      delta M a (x rIdx) / sigma a (x rIdx) (x thetaIdx) := by
+  simp [kerrInverseMetricData, offDiagTPhi, tIdx, rIdx, thetaIdx, phiIdx]
+
+@[simp] theorem kerrInverseMetric_thetaTheta (M a : ℝ) (x : CoordinateSpace 4) :
+    kerrInverseMetricData M a x thetaIdx thetaIdx =
+      (sigma a (x rIdx) (x thetaIdx))⁻¹ := by
+  simp [kerrInverseMetricData, offDiagTPhi, tIdx, rIdx, thetaIdx, phiIdx]
+
+@[simp] theorem kerrInverseMetric_phiPhi (M a : ℝ) (x : CoordinateSpace 4) :
+    kerrInverseMetricData M a x phiIdx phiIdx =
+      (delta M a (x rIdx) - a^2 * (Real.sin (x thetaIdx))^2) /
+        (delta M a (x rIdx) * sigma a (x rIdx) (x thetaIdx) * (Real.sin (x thetaIdx))^2) := by
+  simp [kerrInverseMetricData, offDiagTPhi, tIdx, rIdx, thetaIdx, phiIdx]
+
+@[simp] theorem kerrInverseMetric_tPhi (M a : ℝ) (x : CoordinateSpace 4) :
+    kerrInverseMetricData M a x tIdx phiIdx =
+      -(2 * M * a * x rIdx / (delta M a (x rIdx) * sigma a (x rIdx) (x thetaIdx))) := by
+  simp [kerrInverseMetricData, offDiagTPhi, tIdx, rIdx, thetaIdx, phiIdx]
+
+@[simp] theorem kerrInverseMetric_phiT (M a : ℝ) (x : CoordinateSpace 4) :
+    kerrInverseMetricData M a x phiIdx tIdx =
+      -(2 * M * a * x rIdx / (delta M a (x rIdx) * sigma a (x rIdx) (x thetaIdx))) := by
+  simp [kerrInverseMetricData, offDiagTPhi, tIdx, rIdx, thetaIdx, phiIdx]
+
+@[simp] theorem kerrInverseMetric_offDiag (M a : ℝ) (x : CoordinateSpace 4)
+    (i j : Fin 4) (hij : ¬ offDiagTPhi i j) (hij' : i ≠ j) :
+    kerrInverseMetricData M a x i j = 0 := by
+  classical
+  by_cases hOff : offDiagTPhi i j
+  · exact False.elim (hij hOff)
+  · by_cases hEq : i = j
+    · exact False.elim (hij' hEq)
+    · simp [kerrInverseMetricData, hOff, hEq, offDiagTPhi, tIdx, rIdx, thetaIdx, phiIdx]
+      intro h
+      exact False.elim (hOff h)
+
 /-- Inverse Kerr metric data with generated first derivatives of inverse components. -/
 noncomputable def kerrInverseMetricWithDeriv (M a : ℝ) : InverseMetricDataWithDeriv 4 where
   value := kerrInverseMetricData M a

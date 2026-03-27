@@ -1,0 +1,28 @@
+KerrFormalization/Kerr/Ricci.lean:24:6: warning: declaration uses `sorry`
+KerrFormalization/Kerr/Ricci.lean:29:6: warning: declaration uses `sorry`
+KerrFormalization/Kerr/Ricci.lean:34:6: warning: declaration uses `sorry`
+KerrFormalization/Kerr/Ricci.lean:39:6: warning: declaration uses `sorry`
+KerrFormalization/Kerr/Ricci.lean:44:6: warning: declaration uses `sorry`
+KerrFormalization/Kerr/Ricci.lean:49:6: warning: declaration uses `sorry`
+KerrFormalization/Kerr/Ricci.lean:54:6: warning: declaration uses `sorry`
+KerrFormalization/Kerr/Ricci.lean:59:6: warning: declaration uses `sorry`
+KerrFormalization/Kerr/Ricci.lean:64:6: warning: declaration uses `sorry`
+KerrFormalization/Kerr/Ricci.lean:69:6: warning: declaration uses `sorry`
+KerrFormalization/Kerr/Ricci.lean:74:6: warning: declaration uses `sorry`
+KerrFormalization/Kerr/Ricci.lean:79:6: warning: declaration uses `sorry`
+KerrFormalization/Kerr/Ricci.lean:84:6: warning: declaration uses `sorry`
+KerrFormalization/Kerr/Ricci.lean:89:6: warning: declaration uses `sorry`
+KerrFormalization/Kerr/Ricci.lean:94:6: warning: declaration uses `sorry`
+KerrFormalization/Kerr/Ricci.lean:99:6: warning: declaration uses `sorry`
+KerrFormalization/Kerr/Ricci.lean:126:2: warning: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+KerrFormalization/Kerr/Ricci.lean:130:2: warning: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+KerrFormalization/Kerr/Ricci.lean:134:2: warning: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`
+KerrFormalization/Kerr/Ricci.lean:138:2: warning: try 'simp' instead of 'simpa'
+
+Note: This linter can be disabled with `set_option linter.unnecessarySimpa false`

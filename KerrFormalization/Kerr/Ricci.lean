@@ -23,82 +23,93 @@ noncomputable def kerrRicciComponents (M a : ℝ) : RicciComponentsData 4 :=
 
 lemma ricci_00 (M a : ℝ) (x : CoordinateSpace 4) :
     kerrRicciComponents M a x tIdx tIdx = 0 := by
-  -- TODO: Kerr Ricci (0,0) real-pipeline algebraic identity.
+  -- ATTEMPT: unfold `ricciComponentsFromMetricData`, `riemannComponentsFromMetricData`,
+  -- and `christoffelDerivFromMetricData`, then simplify the 4x4 Christoffel sums.
+  -- The exact metric derivatives are available, but this is still too large for a
+  -- direct `simp` pass without additional explicit Christoffel lemmas.
   sorry
 
 lemma ricci_01 (M a : ℝ) (x : CoordinateSpace 4) :
     kerrRicciComponents M a x tIdx rIdx = 0 := by
-  -- TODO: Kerr Ricci (0,1) real-pipeline algebraic identity.
+  -- ATTEMPT: the off-diagonal slice should collapse from symmetry/sparsity once
+  -- the exact Christoffel formulas are unfolded. A reusable explicit connection
+  -- lemma would likely remove most of the noise here.
   sorry
 
 lemma ricci_02 (M a : ℝ) (x : CoordinateSpace 4) :
     kerrRicciComponents M a x tIdx thetaIdx = 0 := by
-  -- TODO: Kerr Ricci (0,2) real-pipeline algebraic identity.
+  -- ATTEMPT: same as `ricci_01`; the obstacle is the opaque Christoffel sum,
+  -- not the final algebraic identity.
   sorry
 
 lemma ricci_03 (M a : ℝ) (x : CoordinateSpace 4) :
     kerrRicciComponents M a x tIdx phiIdx = 0 := by
-  -- TODO: Kerr Ricci (0,3) real-pipeline algebraic identity.
+  -- ATTEMPT: same as `ricci_01`; this should be a pure cancellation lemma once
+  -- the explicit connection coefficients are exposed.
   sorry
 
 lemma ricci_10 (M a : ℝ) (x : CoordinateSpace 4) :
     kerrRicciComponents M a x rIdx tIdx = 0 := by
-  -- TODO: Kerr Ricci (1,0) real-pipeline algebraic identity.
+  -- ATTEMPT: off-diagonal symmetry should reduce this to `ricci_01`.
   sorry
 
 lemma ricci_11 (M a : ℝ) (x : CoordinateSpace 4) :
     kerrRicciComponents M a x rIdx rIdx = 0 := by
-  -- TODO: Kerr Ricci (1,1) real-pipeline algebraic identity.
+  -- ATTEMPT: this is the first genuinely hard diagonal component; it likely
+  -- needs an explicit Christoffel normal form before `ring_nf` can finish.
   sorry
 
 lemma ricci_12 (M a : ℝ) (x : CoordinateSpace 4) :
     kerrRicciComponents M a x rIdx thetaIdx = 0 := by
-  -- TODO: Kerr Ricci (1,2) real-pipeline algebraic identity.
+  -- ATTEMPT: should vanish by symmetry once the connection is expanded.
   sorry
 
 lemma ricci_13 (M a : ℝ) (x : CoordinateSpace 4) :
     kerrRicciComponents M a x rIdx phiIdx = 0 := by
-  -- TODO: Kerr Ricci (1,3) real-pipeline algebraic identity.
+  -- ATTEMPT: should vanish by the same off-diagonal cancellation pattern as
+  -- the `(0,3)` component.
   sorry
 
 lemma ricci_20 (M a : ℝ) (x : CoordinateSpace 4) :
     kerrRicciComponents M a x thetaIdx tIdx = 0 := by
-  -- TODO: Kerr Ricci (2,0) real-pipeline algebraic identity.
+  -- ATTEMPT: symmetry should reduce this to `ricci_02`.
   sorry
 
 lemma ricci_21 (M a : ℝ) (x : CoordinateSpace 4) :
     kerrRicciComponents M a x thetaIdx rIdx = 0 := by
-  -- TODO: Kerr Ricci (2,1) real-pipeline algebraic identity.
+  -- ATTEMPT: symmetry should reduce this to `ricci_12`.
   sorry
 
 lemma ricci_22 (M a : ℝ) (x : CoordinateSpace 4) :
     kerrRicciComponents M a x thetaIdx thetaIdx = 0 := by
-  -- TODO: Kerr Ricci (2,2) real-pipeline algebraic identity.
+  -- ATTEMPT: diagonal component; likely needs explicit algebra after unfolding
+  -- `christoffelDerivFromMetricData` and `ricciComponentsFromMetricData`.
   sorry
 
 lemma ricci_23 (M a : ℝ) (x : CoordinateSpace 4) :
     kerrRicciComponents M a x thetaIdx phiIdx = 0 := by
-  -- TODO: Kerr Ricci (2,3) real-pipeline algebraic identity.
+  -- ATTEMPT: should vanish by the same off-diagonal pattern as `ricci_03`.
   sorry
 
 lemma ricci_30 (M a : ℝ) (x : CoordinateSpace 4) :
     kerrRicciComponents M a x phiIdx tIdx = 0 := by
-  -- TODO: Kerr Ricci (3,0) real-pipeline algebraic identity.
+  -- ATTEMPT: symmetry should reduce this to `ricci_03`.
   sorry
 
 lemma ricci_31 (M a : ℝ) (x : CoordinateSpace 4) :
     kerrRicciComponents M a x phiIdx rIdx = 0 := by
-  -- TODO: Kerr Ricci (3,1) real-pipeline algebraic identity.
+  -- ATTEMPT: symmetry should reduce this to `ricci_13`.
   sorry
 
 lemma ricci_32 (M a : ℝ) (x : CoordinateSpace 4) :
     kerrRicciComponents M a x phiIdx thetaIdx = 0 := by
-  -- TODO: Kerr Ricci (3,2) real-pipeline algebraic identity.
+  -- ATTEMPT: symmetry should reduce this to `ricci_23`.
   sorry
 
 lemma ricci_33 (M a : ℝ) (x : CoordinateSpace 4) :
     kerrRicciComponents M a x phiIdx phiIdx = 0 := by
-  -- TODO: Kerr Ricci (3,3) real-pipeline algebraic identity.
+  -- ATTEMPT: this diagonal component is the second hard case and probably
+  -- needs explicit closed forms for the nonzero Christoffels.
   sorry
 
 @[simp] theorem ricci_component_zero (M a : ℝ) (x : CoordinateSpace 4) (i j : Fin 4) :

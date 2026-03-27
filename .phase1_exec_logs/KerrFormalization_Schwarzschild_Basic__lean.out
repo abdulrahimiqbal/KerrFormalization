@@ -1,0 +1,2 @@
+KerrFormalization.Schwarzschild.lapse (M r : ℝ) : ℝ
+KerrFormalization.Schwarzschild.exteriorDomain (M : ℝ) : CoordinateDomain 4

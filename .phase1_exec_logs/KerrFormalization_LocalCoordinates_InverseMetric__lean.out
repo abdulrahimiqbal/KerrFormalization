@@ -1,0 +1,8 @@
+KerrFormalization/LocalCoordinates/InverseMetric.lean:10:12: error(lean.synthInstanceFailed): failed to synthesize instance of type class
+  Fintype (Fin n)
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.
+KerrFormalization/LocalCoordinates/InverseMetric.lean:11:12: error(lean.synthInstanceFailed): failed to synthesize instance of type class
+  Fintype (Fin n)
+
+Hint: Type class instance resolution failures can be inspected with the `set_option trace.Meta.synthInstance true` command.

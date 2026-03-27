@@ -1,0 +1,24 @@
+KerrFormalization/Trusted/ScalarExpr.lean:31:4: error: Inconsistent number of patterns in match alternatives: This alternative contains 3 patterns:
+  pow e, 0, _
+but a preceding alternative contains 2:
+  const c, _
+KerrFormalization/Trusted/ScalarExpr.lean:36:0: error: Not a definitional equality: the left-hand side
+  (const c).eval x
+is not definitionally equal to the right-hand side
+  c
+KerrFormalization/Trusted/ScalarExpr.lean:37:28: error: Type mismatch
+  rfl
+has type
+  ?m.5 = ?m.5
+but is expected to have type
+  (const c).eval x = c
+KerrFormalization/Trusted/ScalarExpr.lean:39:0: error: Not a definitional equality: the left-hand side
+  (coord i).eval x
+is not definitionally equal to the right-hand side
+  x i
+KerrFormalization/Trusted/ScalarExpr.lean:40:30: error: Type mismatch
+  rfl
+has type
+  ?m.5 = ?m.5
+but is expected to have type
+  (coord i).eval x = x i

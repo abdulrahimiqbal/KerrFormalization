@@ -36,6 +36,9 @@ noncomputable def toCoordinateScalarField {n : ℕ} (f : ExactField n) : Coordin
 /-- Build an exact field from an expression AST. -/
 def fromExpr {n : ℕ} (e : ScalarExpr n) : ExactField n := ⟨e⟩
 
+@[simp] theorem fromExpr_eval {n : ℕ} (e : ScalarExpr n) (x : CoordinateSpace n) :
+    (ExactField.fromExpr e).expr.eval x = ScalarExpr.eval e x := rfl
+
 /-- The constant exact field. -/
 def const {n : ℕ} (c : ℝ) : ExactField n := fromExpr (.const c)
 

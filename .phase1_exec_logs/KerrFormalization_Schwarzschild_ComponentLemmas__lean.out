@@ -1,0 +1,56 @@
+KerrFormalization/Schwarzschild/ComponentLemmas.lean:24:49: warning: This simp argument is unused:
+  thetaIdx
+
+Hint: Omit it from the simp argument list.
+  simp [schwarzschildDiag, gttField, tIdx, rIdx, t̵h̵e̵t̵a̵I̵d̵x̵,̵ ̵phiIdx]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+KerrFormalization/Schwarzschild/ComponentLemmas.lean:24:59: warning: This simp argument is unused:
+  phiIdx
+
+Hint: Omit it from the simp argument list.
+  simp [schwarzschildDiag, gttField, tIdx, rIdx, thetaIdx,̵ ̵p̵h̵i̵I̵d̵x̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+KerrFormalization/Schwarzschild/ComponentLemmas.lean:29:49: warning: This simp argument is unused:
+  thetaIdx
+
+Hint: Omit it from the simp argument list.
+  simp [schwarzschildDiag, grrField, tIdx, rIdx, t̵h̵e̵t̵a̵I̵d̵x̵,̵ ̵phiIdx]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+KerrFormalization/Schwarzschild/ComponentLemmas.lean:29:59: warning: This simp argument is unused:
+  phiIdx
+
+Hint: Omit it from the simp argument list.
+  simp [schwarzschildDiag, grrField, tIdx, rIdx, thetaIdx,̵ ̵p̵h̵i̵I̵d̵x̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+KerrFormalization/Schwarzschild/ComponentLemmas.lean:52:49: warning: This simp argument is unused:
+  thetaIdx
+
+Hint: Omit it from the simp argument list.
+  simp [schwarzschildDiag, gttField, tIdx, rIdx, t̵h̵e̵t̵a̵I̵d̵x̵,̵ ̵phiIdx]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+KerrFormalization/Schwarzschild/ComponentLemmas.lean:52:59: warning: This simp argument is unused:
+  phiIdx
+
+Hint: Omit it from the simp argument list.
+  simp [schwarzschildDiag, gttField, tIdx, rIdx, thetaIdx,̵ ̵p̵h̵i̵I̵d̵x̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+KerrFormalization/Schwarzschild/ComponentLemmas.lean:58:49: warning: This simp argument is unused:
+  thetaIdx
+
+Hint: Omit it from the simp argument list.
+  simp [schwarzschildDiag, grrField, tIdx, rIdx, t̵h̵e̵t̵a̵I̵d̵x̵,̵ ̵phiIdx]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+KerrFormalization/Schwarzschild/ComponentLemmas.lean:58:59: warning: This simp argument is unused:
+  phiIdx
+
+Hint: Omit it from the simp argument list.
+  simp [schwarzschildDiag, grrField, tIdx, rIdx, thetaIdx,̵ ̵p̵h̵i̵I̵d̵x̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

@@ -1,0 +1,21 @@
+KerrFormalization/Kerr/BoyerLindquist.lean:138:20: warning: This simp argument is unused:
+  hOff'
+
+Hint: Omit it from the simp argument list.
+  simp [hOff,̵ ̵h̵O̵f̵f̵'̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+KerrFormalization/Kerr/BoyerLindquist.lean:151:20: warning: This simp argument is unused:
+  hOff'
+
+Hint: Omit it from the simp argument list.
+  simp [hOff,̵ ̵h̵O̵f̵f̵'̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`
+KerrFormalization/Kerr/BoyerLindquist.lean:164:20: warning: This simp argument is unused:
+  hOff'
+
+Hint: Omit it from the simp argument list.
+  simp [hOff,̵ ̵h̵O̵f̵f̵'̵]
+
+Note: This linter can be disabled with `set_option linter.unusedSimpArgs false`

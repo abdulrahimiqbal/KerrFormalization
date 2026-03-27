@@ -1,0 +1,4 @@
+KerrFormalization/Trusted/ScalarExpr.lean:31:4: error: Inconsistent number of patterns in match alternatives: This alternative contains 3 patterns:
+  pow e, 0, _
+but a preceding alternative contains 2:
+  const c, _

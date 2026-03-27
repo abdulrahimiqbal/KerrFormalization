@@ -1,0 +1,3 @@
+KerrFormalization.LocalCoordinates.ChristoffelSymbolsData (n : ℕ) : Type
+KerrFormalization.LocalCoordinates.christoffelFromMetricData {n : ℕ} (g : CoordinateMetricData n)
+  (ginv : InverseMetricData n) : ChristoffelSymbolsData n
