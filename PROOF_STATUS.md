@@ -43,6 +43,64 @@ To inspect remaining proof holes:
 rg -n "sorry|admit" KerrFormalization
 ```
 
+## One Claim Walkthrough
+
+Use this as the five-minute inspection path for the current checked Kerr
+surface.
+
+Informal claim:
+
+> The outer Kerr horizon radius is a root of the Kerr `Delta` function when the
+> discriminant is nonnegative.
+
+Facade theorem:
+
+```lean
+KerrFormalization.Kerr.outerHorizonIsDeltaRoot
+```
+
+File:
+
+```txt
+KerrFormalization/Kerr/Validation.lean
+```
+
+Lean statement:
+
+```lean
+theorem outerHorizonIsDeltaRoot (M a : Real) (hdisc : 0 <= M ^ 2 - a ^ 2) :
+    delta M a (outerHorizon M a) = 0 :=
+  delta_outerHorizon_eq_zero M a hdisc
+```
+
+Source theorem:
+
+```lean
+KerrFormalization.Kerr.delta_outerHorizon_eq_zero
+```
+
+Source file:
+
+```txt
+KerrFormalization/Kerr/Horizons.lean
+```
+
+Local check:
+
+```bash
+lake exe cache get
+lake env lean KerrFormalization/Kerr/Validation.lean
+```
+
+Expected result: the command exits successfully with no Lean errors.
+
+Why this is the right first claim:
+
+- it is small enough to inspect directly
+- it connects the formal code to a recognizable Kerr horizon identity
+- it uses the project's current coordinate-data proof style
+- it does not ask the reader to trust incomplete Ricci/vacuum or hidden-symmetry scaffolds
+
 ## Proof Status Table
 
 | Area | Representative files | Current status | Notes |

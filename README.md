@@ -30,6 +30,41 @@ At the current v1 stage, the library includes machine-checked:
 For a compact audit map of what is checked, what is scaffolded, and where
 `sorry` remains, see [`PROOF_STATUS.md`](PROOF_STATUS.md).
 
+## One checked claim to inspect first
+
+If you want one concrete checked claim, start with:
+
+```lean
+KerrFormalization.Kerr.outerHorizonIsDeltaRoot
+```
+
+Informally, this says that the outer Kerr horizon radius is a root of the Kerr
+`Delta` function when the discriminant is nonnegative.
+
+The presentation theorem lives in:
+
+```txt
+KerrFormalization/Kerr/Validation.lean
+```
+
+It points to the source theorem:
+
+```lean
+KerrFormalization.Kerr.delta_outerHorizon_eq_zero
+```
+
+Check it locally with:
+
+```bash
+lake exe cache get
+lake env lean KerrFormalization/Kerr/Validation.lean
+```
+
+A successful run prints no Lean errors. This is intentionally a narrow proof
+walkthrough: it does not claim full Ricci-flatness, vacuum completion, or the
+full hidden-symmetry chain. It shows the repository's current proof style and
+the exact boundary between checked Kerr identities and open proof targets.
+
 ## Important modeling note
 
 These results are formal and machine-checked in a **coordinate-data curvature framework**, not yet a fully abstract Lorentzian-manifold stack.
