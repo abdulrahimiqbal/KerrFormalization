@@ -27,6 +27,9 @@ At the current v1 stage, the library includes machine-checked:
 - meaningful `a = 0` reduction behavior toward Schwarzschild
 - metric/inverse-metric component formulas in the coordinate-data layer
 
+For a compact audit map of what is checked, what is scaffolded, and where
+`sorry` remains, see [`PROOF_STATUS.md`](PROOF_STATUS.md).
+
 ## Important modeling note
 
 These results are formal and machine-checked in a **coordinate-data curvature framework**, not yet a fully abstract Lorentzian-manifold stack.
