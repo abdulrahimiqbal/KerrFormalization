@@ -4,6 +4,11 @@ KerrFormalization is a Lean 4 project that formalizes Schwarzschild and Kerr bla
 
 It includes machine-checked coordinate-data definitions and validation lemmas for core Kerr identities in Boyer-Lindquist coordinates.
 
+Project context: [Rahim Iqbal's overview](https://rahimiqbal.com/projects/kerr-formalization)
+and the [Kerr Problems contribution record](https://kerrproblems.com/contributors/rahim-iqbal)
+connect this checked proof surface to the related literature audit without conflating
+formalized identities, literature closures, and still-open research problems.
+
 ## What this project does
 
 This repository builds a proof-checked prototype library for exact black-hole spacetime formulas.
